@@ -3,11 +3,50 @@ from matrix import *
 
 
 def add_circle( points, cx, cy, cz, r, step ):
-    pass
+
+    t = 0
+    counter = 0
+    while t <= 1: 
+        
+        currX = (r * math.cos(2 * math.pi * t)) + cx
+        currY = (r * math.sin(2 * math.pi * t)) + cy
+        add_point( points, currX, currY )
+        
+        t += step
+        counter += 1
+
+    if (counter % 2) == 1:
+        add_point( points, currX, currY )
 
 def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
-    pass
 
+    t = 0
+    counter = 0
+
+    if curve_type == "bezier":
+        xCoef = generate_curve_coefs(x0, x1, x2, x3, "bezier")
+        yCoef = generate_curve_coefs(y0, y1, y2, y3, "bezier")
+
+    elif curve_type == "hermite":
+        xCoef = generate_curve_coefs(x0, x1, x2, x3, "hermite")
+        yCoef = generate_curve_coefs(y0, y1, y2, y3, "hermite")
+
+    else:
+        print "borked"
+        return
+
+    while t <= 1: 
+        
+        powers = [t**3, t**2, t**1, t**0 ]
+        currX = xCoef[0][0] * powers[0] + xCoef[0][1] * powers[1] + xCoef[0][2] * powers[2] + xCoef[0][3] * powers[3] 
+        currY = yCoef[0][0] * powers[0] + yCoef[0][1] * powers[1] + yCoef[0][2] * powers[2] + yCoef[0][3] * powers[3] 
+        add_point( points, currX, currY )
+        
+        t += step
+        counter += 1
+
+    if (counter % 2) == 1:
+        add_point( points, currX, currY )
 
 
 def draw_lines( matrix, screen, color ):

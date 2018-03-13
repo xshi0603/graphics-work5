@@ -19,4 +19,7 @@ transform = new_matrix()
 # print
 # print_matrix( make_rotZ(math.pi/4) )
 
+
+#print_matrix( generate_curve_coefs(1,2,3,4,"bezier") )
+
 parse_file( 'script', edges, transform, screen, color )
